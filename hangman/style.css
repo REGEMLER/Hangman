@@ -12,11 +12,12 @@ body {
     width: 100%;
     margin: 0 auto;
     padding: 2rem;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     gap: 50px;
     background-color: blanchedalmond;
+    overflow-x: hidden;
 }
 
 .image {
@@ -40,7 +41,7 @@ body {
     flex-direction: column;
     align-items: center;
     position: absolute;
-    top: 27%;
+    top: 26%;
     left: 65%;
 }
 
@@ -72,13 +73,13 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .input {
     display: block;
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
     border: none;
     outline: none;
     background-color: white;
@@ -158,4 +159,97 @@ h1 {
     color: #29113d;
     background-color: rgba(255,255,255, 0.2);
     box-shadow: 3px 3px 0 #000;
+}
+
+@media screen and (max-width: 960px) {
+    .wrapper {
+        padding: 1.5rem;
+        gap: 30px;
+    }
+
+    .gallows {
+        width: 300px;
+        height: 550px;
+    }
+
+    .hangman {
+        left: 60%;
+    }
+
+    .key {
+        width: 40px;
+        height: 40px;
+    }
+
+    .input {
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+    }
+}
+
+@media screen and (max-width: 790px) {
+    .wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .image {
+        align-self: center;
+        order: 2;
+    }
+
+    .field{
+        order: 1;
+    }
+
+    .hangman {
+        top: 29%;
+        left: 60%;
+    }
+
+    h1 {
+        margin-bottom: 10px;
+    }
+
+    .question,
+    .keyboard {
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    .input {
+        width: 40px;
+        height: 40px;
+        font-size: 26px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .wrapper {
+        padding: 1rem;
+    }
+    .keyboard {
+        padding: 0.5rem;
+    }
+    .key {
+        width: 25px;
+        height: 25px;
+    }
+    .gallows {
+        width: 260px;
+        height: 530px;
+    }
+    .hangman {
+        left: 57%;
+    }
+    .input {
+        width: 30px;
+        height: 30px;
+        font-size: 22px;
+    }
+    .question,
+    .title {
+        font-size: 18px;
+    }
 }
