@@ -134,13 +134,42 @@ function createBody() {
 
 createBody();
 
-function f() {
+const keyboard = document.querySelector(".keyboard");
+keyboard.addEventListener("click", onVirtual)
+
+function onVirtual(event) {
+    let key = event.target.closest('.key');
+    if (!key || usedLetters.includes(key.textContent.toLowerCase())) return; 
     const inputs = [...document.querySelectorAll(".input")];
-    const word = Object.keys(questions[1])[0].split("");
-    console.log(word);
-    inputs.forEach((item, index) => item.textContent = word[index])
+    const letter = key.textContent.toLowerCase();
+    for(let i = 0; i< answer.length; i++) {
+        if(answer[i].toLowerCase() === letter) {
+            inputs[i].textContent = letter;
+        } else {
+            counter++;
+        }
+    }
+    key.classList.add("key_active");
+    usedLetters.push(letter);
 }
 
-window.addEventListener("keyup", (e) => {
-    console.log(e);
-})
+function onKeyboard(event) {
+    const letters = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "d", "s", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"]
+    const key = event.key;
+    if(!letters.includes(key.toLowerCase()) || usedLetters.includes(key.textContent.toLowerCase())) {
+        return;
+    } 
+    const inputs = [...document.querySelectorAll(".input")];
+    const letter = key.toLowerCase();
+    for(let i = 0; i< answer.length; i++) {
+        if(answer[i].toLowerCase() === letter) {
+            inputs[i].textContent = letter;
+        } else {
+            counter++;
+        }
+    }
+    // key.classList.add("key_active");
+    usedLetters.push(letter);
+}
+
+window.addEventListener("keyup", onKeyboard);
