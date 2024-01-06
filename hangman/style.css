@@ -45,6 +45,10 @@ body {
     left: 65%;
 }
 
+.hangman__item {
+    transition: all ease-in-out 0.5s;
+}
+
 .hands {
     display: flex;
     justify-content: center;
@@ -160,6 +164,62 @@ h1 {
     box-shadow: 3px 3px 0 #000;
 }
 
+.modal{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(64, 63, 61, 0.80);;
+    z-index: 50;
+    transition: all linear .7s;
+}
+
+.modal__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 70%;
+    padding: 16px;
+    background-color: rgb(136, 112, 75);
+    border-radius: 10px;
+}    
+
+.modal__title_win {
+    background-color: green;
+}
+
+.modal__title_loose {
+    background-color: red;
+}
+
+.modal__title,
+.modal__word {
+    font-size: 24px;
+    text-align: center;
+    color: #29113d;
+}
+
+.modal__btn {
+    width: 200px;
+    height: 60px;
+    margin: 10px auto;
+    background-color: #29113d;
+    color: white;
+    font-size: 26px;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: all ease-in-out 0.5s;
+}
+
 @media screen and (max-width: 960px) {
     .wrapper {
         padding: 1.5rem;
@@ -251,4 +311,9 @@ h1 {
     .title {
         font-size: 18px;
     }
+    .modal__inner {
+        width: 300px;
+    }
 }
+
+

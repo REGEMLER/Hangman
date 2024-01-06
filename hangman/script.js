@@ -15,13 +15,13 @@ function createGame() {
         createGame()
     } else {
         i = 0;
-        createrQuestion();
+        createQuestion();
         localStorage.setItem("firstAnswer", firstAnswer);
     }
     console.log(firstAnswer)
 }
 
-function createrQuestion() {
+function createQuestion() {
     answer = Object.keys(arrQuestions[i])[0].toLowerCase();
     question = Object.values(arrQuestions[i])[0].toLowerCase();
     const questionElement = document.querySelector(".question");
@@ -30,10 +30,10 @@ function createrQuestion() {
     const span = document.getElementById("span");
     span.textContent = `${counter}/6`; 
     usedLetters.length = 0;
-    createrInputs();
+    createInputs();
 }
 
-function createrInputs() {
+function createInputs() {
     const inputs = document.querySelector(".inputs");
     for(let i = 0; i < answer.length; i++) {
         const element = document.createElement("DIV");
@@ -41,6 +41,28 @@ function createrInputs() {
         inputs.append(element);
     }
 }
+
+function createModal(isWin) {
+
+    function playAgain() {
+        const modal = document.querySelector("modal");
+        modal.remove();
+    }
+
+    const modal = document.createElement("div");
+    const title = isWin ? "Congratulations you are winner!" : "Unfortunately you are hanged! A Feast for Crows!";
+    const secret = `The sicret word is ${answer.toUpperCase()}`;
+    const color = isWin ? "modal__title_win" : "modal__title_loose";
+    modal.classList.add("modal");
+    modal.innerHTML = `<div class="modal__inner ${color}">
+    <h2 class="modal__title">${title}</h2>
+    <h3 class="modal__word">${secret}</h3>
+    <button class="modal__btn" onclick="playAgain()">Play again</button>
+    </div>`;
+    document.body.append(modal);
+}
+
+
 
 function createBody() {
     const wrapper = document.createElement("div");
@@ -50,15 +72,15 @@ function createBody() {
     image.classList.add("image");
     image.innerHTML = `<div class="gallows"><img src="assets/gallows.svg" alt="gallows"></div>
     <div class="hangman">
-        <div class="hangman__item hangman__item1"><img src="assets/head.svg" alt="head"></div>
+        <div class="hangman__item hangman__item1 hidden"><img src="assets/head.svg" alt="head"></div>
         <div class="hands">
-            <div class="hangman__item hangman__item2"><img src="assets/hand-one.svg" alt="hand"></div>
-            <div class="hangman__item hangman__item3"><img src="assets/body.svg" alt="bady"></div>
-            <div class="hangman__item hangman__item4"><img src="assets/hand-two.svg" alt="hand"></div>
+            <div class="hangman__item hangman__item2 hidden"><img src="assets/hand-one.svg" alt="hand"></div>
+            <div class="hangman__item hangman__item3 hidden"><img src="assets/body.svg" alt="bady"></div>
+            <div class="hangman__item hangman__item4 hidden"><img src="assets/hand-two.svg" alt="hand"></div>
         </div>
         <div class="legs">
-            <div class="hangman__item hangman__item5"><img src="assets/leg-one.svg" alt="leg"></div>
-            <div class="hangman__item hangman__item6"><img src="assets/leg-two.svg" alt="leg"></div>
+            <div class="hangman__item hangman__item5 hidden"><img src="assets/leg-one.svg" alt="leg"></div>
+            <div class="hangman__item hangman__item6 hidden"><img src="assets/leg-two.svg" alt="leg"></div>
         </div>
     </div>`
     wrapper.append(image);
@@ -88,11 +110,11 @@ function createBody() {
             <div class="key">K</div>
             <div class="key">L</div>
             <div class="key">M</div>
-            <div class="key key_active">N</div>
+            <div class="key">N</div>
             <div class="key">O</div>
             <div class="key">P</div>
             <div class="key">Q</div>
-            <div class="key key_active">R</div>
+            <div class="key">R</div>
         </div>
         <div class="keyboard__row">
             <div class="key">S</div>
@@ -110,8 +132,7 @@ function createBody() {
     createGame();
 }
 
-createBody()
-
+createBody();
 
 function f() {
     const inputs = [...document.querySelectorAll(".input")];
