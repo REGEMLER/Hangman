@@ -135,7 +135,8 @@ function createBody() {
             <div class="key">Y</div>
             <div class="key">Z</div>
         </div>
-    </div>`
+    </div>
+    <footer class="footer">You can see the answer in the console</footer>`
     wrapper.append(field);
     document.body.prepend(wrapper);
     createGame();
@@ -146,7 +147,10 @@ function playGame(letter) {
     const inputs = [...document.querySelectorAll(".input")];
     if(answer.toLowerCase().includes(letter)) {
         for(let i = 0; i< answer.length; i++) {
-            if(answer[i].toLowerCase() === letter) inputs[i].textContent = letter;
+            if(answer[i].toLowerCase() === letter) {
+                inputs[i].textContent = letter;
+                inputs[i].classList.add("input_active");
+            } 
         }
         const empty = inputs.filter(item => item.textContent === "").length;
         if(!empty) {
