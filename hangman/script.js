@@ -12,18 +12,19 @@ function createGame() {
     const firstAnswer = Object.keys(arrQuestions[0])[0];
     const previousfirstAnswer = localStorage.getItem("firstAnswer");
     if(firstAnswer === previousfirstAnswer) {
-        createGame()
+        createGame();
     } else {
-        i = 0;
         createQuestion();
-        localStorage.setItem("firstAnswer", firstAnswer);
     }
-    console.log(firstAnswer)
 }
 
 function createQuestion() {
+    const virtualKeys = [...document.querySelectorAll(".key")];
+    const partsOfBody = document.querySelectorAll(`.hangman__item`);
+    partsOfBody.forEach(item => item.classList.add("hidden"));
+    virtualKeys.forEach(item => item.classList.remove("key_active"));
     answer = Object.keys(arrQuestions[i])[0].toLowerCase();
-    question = Object.values(arrQuestions[i])[0].toLowerCase();
+    question = Object.values(arrQuestions[i])[0];
     const questionElement = document.querySelector(".question");
     questionElement.textContent = question; 
     counter = 1; 
@@ -31,10 +32,13 @@ function createQuestion() {
     span.textContent = `0/6`; 
     usedLetters.length = 0;
     createInputs();
+    localStorage.setItem("firstAnswer", answer);
+    console.log(answer);
 }
 
 function createInputs() {
     const inputs = document.querySelector(".inputs");
+    inputs.innerHTML = "";
     for(let i = 0; i < answer.length; i++) {
         const element = document.createElement("DIV");
         element.classList.add("input");
@@ -42,13 +46,19 @@ function createInputs() {
     }
 }
 
-function createModal(isWin) {
-
-    function playAgain() {
-        const modal = document.querySelector("modal");
-        modal.remove();
+function playAgain(event) {
+    if(event.target.id !== "restart") return false;
+    i = i + 1;
+    if(i === 40) {
+        i = 0;
     }
+    const modal = document.querySelector(".modal");
+    modal.remove();
+    createQuestion();
+}
+document.body.addEventListener("click", playAgain)
 
+function createModal(isWin) {
     const modal = document.createElement("div");
     const title = isWin ? "Congratulations you are winner!" : "Unfortunately you are hanged! A Feast for Crows!";
     const secret = `The sicret word is ${answer.toUpperCase()}`;
@@ -57,7 +67,7 @@ function createModal(isWin) {
     modal.innerHTML = `<div class="modal__inner ${color}">
     <h2 class="modal__title">${title}</h2>
     <h3 class="modal__word">${secret}</h3>
-    <button class="modal__btn" onclick="playAgain()">Play again</button>
+    <button id="restart" class="modal__btn" onclick="playAgain()">Play again</button>
     </div>`;
     document.body.append(modal);
 }
@@ -84,7 +94,6 @@ function createBody() {
         </div>
     </div>`
     wrapper.append(image);
-
 
     const field = document.createElement("div");
     field.classList.add("field");
@@ -131,58 +140,56 @@ function createBody() {
     document.body.prepend(wrapper);
     createGame();
 }
-
 createBody();
 
-const keyboard = document.querySelector(".keyboard");
-keyboard.addEventListener("click", onVirtual)
-
-function onVirtual(event) {
-    let key = event.target.closest('.key');
-    if (!key || usedLetters.includes(key.textContent.toLowerCase())) return; 
+function playGame(letter) {
     const inputs = [...document.querySelectorAll(".input")];
-    const letter = key.textContent.toLowerCase();
     if(answer.toLowerCase().includes(letter)) {
         for(let i = 0; i< answer.length; i++) {
             if(answer[i].toLowerCase() === letter) inputs[i].textContent = letter;
         }
         const empty = inputs.filter(item => item.textContent === "").length;
         if(!empty) {
-            createModal(true);
+            setTimeout(()=> {
+                createModal(true);
+            }, 500)
             return;
         }
     } else {
-        if(counter === 6) {
-            createModal(false);
-            return;
-        }
         const partOfBody = document.querySelector(`.hangman__item${counter}`);
         partOfBody.classList.remove("hidden");
         const span = document.getElementById("span");
         span.textContent = `${counter}/6`;
         counter = counter + 1;
+        if(counter === 7) {
+            setTimeout(()=> {
+                createModal(false);
+            }, 500)
+            return;
+        }
     }
+}
+
+function onVirtual(event) {
+    let key = event.target.closest('.key');
+    if (!key || usedLetters.includes(key.textContent.toLowerCase())) return; 
+    const letter = key.textContent.toLowerCase();
+    playGame(letter);
     key.classList.add("key_active");
     usedLetters.push(letter);
 }
+const keyboard = document.querySelector(".keyboard");
+keyboard.addEventListener("click", onVirtual)
 
 function onKeyboard(event) {
     const letters = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "d", "s", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m"]
     const key = event.key;
-    if(!letters.includes(key.toLowerCase()) || usedLetters.includes(key.textContent.toLowerCase())) {
-        return;
-    } 
-    const inputs = [...document.querySelectorAll(".input")];
+    if(!letters.includes(key.toLowerCase()) || usedLetters.includes(key.toLowerCase())) return;
     const letter = key.toLowerCase();
-    for(let i = 0; i< answer.length; i++) {
-        if(answer[i].toLowerCase() === letter) {
-            inputs[i].textContent = letter;
-        } else {
-            counter++;
-        }
-    }
-    // key.classList.add("key_active");
+    playGame(letter);
+    const virtualKeys = [...document.querySelectorAll(".key")];
+    const virtualKey = virtualKeys.find(item => item.textContent.toLowerCase() === letter);
+    virtualKey.classList.add("key_active");
     usedLetters.push(letter);
 }
-
-// window.addEventListener("keyup", onKeyboard);
+window.addEventListener("keyup", onKeyboard);
