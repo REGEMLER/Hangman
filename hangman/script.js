@@ -84,13 +84,13 @@ function createBody() {
     <div class="hangman">
         <div class="hangman__item hangman__item1 hidden"><img src="assets/head.svg" alt="head"></div>
         <div class="hands">
-            <div class="hangman__item hangman__item2 hidden"><img src="assets/hand-one.svg" alt="hand"></div>
-            <div class="hangman__item hangman__item3 hidden"><img src="assets/body.svg" alt="bady"></div>
-            <div class="hangman__item hangman__item4 hidden"><img src="assets/hand-two.svg" alt="hand"></div>
+            <div class="hangman__item hangman__item4 hidden"><img src="assets/hand-one.svg" alt="hand"></div>
+            <div class="hangman__item hangman__item2 hidden"><img src="assets/body.svg" alt="body"></div>
+            <div class="hangman__item hangman__item3 hidden"><img src="assets/hand-two.svg" alt="hand"></div>
         </div>
         <div class="legs">
-            <div class="hangman__item hangman__item5 hidden"><img src="assets/leg-one.svg" alt="leg"></div>
-            <div class="hangman__item hangman__item6 hidden"><img src="assets/leg-two.svg" alt="leg"></div>
+            <div class="hangman__item hangman__item6 hidden"><img src="assets/leg-one.svg" alt="leg"></div>
+            <div class="hangman__item hangman__item5 hidden"><img src="assets/leg-two.svg" alt="leg"></div>
         </div>
     </div>`
     wrapper.append(image);
