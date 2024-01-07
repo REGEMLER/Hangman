@@ -5,7 +5,7 @@ let arrQuestions = [];
 let usedLetters = [];
 let question = ``;
 let answer = '';
-let counter = 0;
+let counter = 1;
 
 function createGame() {
     arrQuestions = questions.sort(() => Math.random() - 0.5);
@@ -26,9 +26,9 @@ function createQuestion() {
     question = Object.values(arrQuestions[i])[0].toLowerCase();
     const questionElement = document.querySelector(".question");
     questionElement.textContent = question; 
-    counter = 0; 
+    counter = 1; 
     const span = document.getElementById("span");
-    span.textContent = `${counter}/6`; 
+    span.textContent = `0/6`; 
     usedLetters.length = 0;
     createInputs();
 }
@@ -142,12 +142,25 @@ function onVirtual(event) {
     if (!key || usedLetters.includes(key.textContent.toLowerCase())) return; 
     const inputs = [...document.querySelectorAll(".input")];
     const letter = key.textContent.toLowerCase();
-    for(let i = 0; i< answer.length; i++) {
-        if(answer[i].toLowerCase() === letter) {
-            inputs[i].textContent = letter;
-        } else {
-            counter++;
+    if(answer.toLowerCase().includes(letter)) {
+        for(let i = 0; i< answer.length; i++) {
+            if(answer[i].toLowerCase() === letter) inputs[i].textContent = letter;
         }
+        const empty = inputs.filter(item => item.textContent === "").length;
+        if(!empty) {
+            createModal(true);
+            return;
+        }
+    } else {
+        if(counter === 6) {
+            createModal(false);
+            return;
+        }
+        const partOfBody = document.querySelector(`.hangman__item${counter}`);
+        partOfBody.classList.remove("hidden");
+        const span = document.getElementById("span");
+        span.textContent = `${counter}/6`;
+        counter = counter + 1;
     }
     key.classList.add("key_active");
     usedLetters.push(letter);
@@ -172,4 +185,4 @@ function onKeyboard(event) {
     usedLetters.push(letter);
 }
 
-window.addEventListener("keyup", onKeyboard);
+// window.addEventListener("keyup", onKeyboard);
