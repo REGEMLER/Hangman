@@ -42,6 +42,7 @@ function createInputs() {
     for(let i = 0; i < answer.length; i++) {
         const element = document.createElement("DIV");
         element.classList.add("input");
+        element.textContent = "_"
         inputs.append(element);
     }
 }
@@ -152,7 +153,7 @@ function playGame(letter) {
                 inputs[i].classList.add("input_active");
             } 
         }
-        const empty = inputs.filter(item => item.textContent === "").length;
+        const empty = inputs.filter(item => item.textContent === "_").length;
         if(!empty) {
             setTimeout(()=> {
                 createModal(true);
